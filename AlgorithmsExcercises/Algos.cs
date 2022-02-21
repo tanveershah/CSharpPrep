@@ -11,10 +11,11 @@ namespace AlgorithmsExcercisesNS
             string returnedString = ReverseStringRecursive("tanveer");
             Console.WriteLine($"The reversed of my name tanveer is: {returnedString}.");
             Console.WriteLine($"The sum of numbers between 5 and 10 (inclusive) is {GetSumBetweenNumbersRecursive(5, 10)}.");
+            Console.WriteLine($"The product of 5 power 3 is {XToTheYPowerRecursive(5, 3)}.");
         }
 
         // Brute force (linear search)
-         //Write a function called IsFirstCharRepeated that takes in a string and returns a bool.
+        // Write a function called IsFirstCharRepeated that takes in a string and returns a bool.
         // The function should return true if the first character is repeated anywhere else in the string
         // Write a unit test and test this function.
 
@@ -31,11 +32,8 @@ namespace AlgorithmsExcercisesNS
         }
 
         // Recursion
-
         // Write a function called ReverseString that takes in a string and returns a string. The function should return the string passed in, but in reverse.The function should solve the problem using iteration.
-
         // Write a unit test and test this function.
-
         // Solve the same problem using recursion and test it again.
 
         static string ReverseString(string myString)
@@ -60,11 +58,8 @@ namespace AlgorithmsExcercisesNS
         }
 
         // Write a function called GetSumBetweenNumbers that takes in an int min and an int max and returns an int. The function should get the sum of all the numbers between (and including) min and max. The function should solve the problem using iteration.
-
         // If min > max, the function should return 0
-
         // Write a unit test and test this function.
-
         // Solve the same problem using recursion and test it again.
 
         static int GetSumBetweenNumbers(int min, int max)
@@ -88,6 +83,40 @@ namespace AlgorithmsExcercisesNS
 
             // recursive case
             return max + GetSumBetweenNumbersRecursive(min, max - 1);
+        }
+
+        // Write a function called XToTheYPower that takes in an int x and an int y, and returns int. The function should return x^y.Solve this using iteration, don’t use Math.Pow()
+        // Write a unit test and test this function.
+        // Solve the same problem using recursion and test it again.
+
+        static int XToTheYPower(int x, int y)
+        {
+            int product = 1;
+
+            for (int i = 0; i < y; i++)
+            {
+                product *= x;
+            }
+
+            return product;
+        }
+
+        static int XToTheYPowerRecursive(int x, int y)
+        {
+            //int product = 1;
+
+            //for (int i = 0; i < y; i++)
+            //{
+            //    product *= x;
+            //}
+
+            //return product;
+
+            // base case
+            if (y == 0) return 1;
+
+            // recursive case
+            return x * XToTheYPowerRecursive(x, y - 1);
         }
     }
 }
