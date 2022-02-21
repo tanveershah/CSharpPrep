@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace AlgorithmsExcercisesNS
 {
@@ -12,6 +13,9 @@ namespace AlgorithmsExcercisesNS
             Console.WriteLine($"The reversed of my name tanveer is: {returnedString}.");
             Console.WriteLine($"The sum of numbers between 5 and 10 (inclusive) is {GetSumBetweenNumbersRecursive(5, 10)}.");
             Console.WriteLine($"The product of 5 power 3 is {XToTheYPowerRecursive(5, 3)}.");
+
+            var nums = new List<int>() { 1, 2, 3, 4 };
+            Console.WriteLine($"The product of integers in the list nums is {MultiplyListRecursive(nums)}.");
         }
 
         // Brute force (linear search)
@@ -103,20 +107,41 @@ namespace AlgorithmsExcercisesNS
 
         static int XToTheYPowerRecursive(int x, int y)
         {
-            //int product = 1;
-
-            //for (int i = 0; i < y; i++)
-            //{
-            //    product *= x;
-            //}
-
-            //return product;
-
             // base case
             if (y == 0) return 1;
 
             // recursive case
             return x * XToTheYPowerRecursive(x, y - 1);
+        }
+
+        // Divide-and-conquer
+        // Write a function called MultiplyList that takes in a List<int>.It should return the product of all numbers in the list. Solve this problem using iteration.
+        // Write a unit test and test this function.
+        // Solve the same problem using a recursive divide-and-conquer algorithm and test it again.
+
+        static int MultiplyList(List<int> nums)
+        {
+            int product = 1;
+
+            for (int i = 0; i < nums.Count; i++)
+            {
+                product *= nums[i];
+            }
+
+            return product;
+        }
+
+        static int MultiplyListRecursive(List<int> nums)
+        {
+            // base case
+            if (nums.Count == 0) return 1;
+
+            // obaining the current element and removing it from the list
+            int currentElement = nums[0];
+            nums.RemoveAt(0);
+
+            // recursive case
+            return currentElement * MultiplyListRecursive(nums);
         }
     }
 }
