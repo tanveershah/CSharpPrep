@@ -14,8 +14,15 @@ namespace AlgorithmsExcercisesNS
             Console.WriteLine($"The sum of numbers between 5 and 10 (inclusive) is {GetSumBetweenNumbersRecursive(5, 10)}.");
             Console.WriteLine($"The product of 5 power 3 is {XToTheYPowerRecursive(5, 3)}.");
 
-            var nums = new List<int>() { 1, 2, 3, 4 };
-            Console.WriteLine($"The product of integers in the list nums is {MultiplyListRecursive(nums)}.");
+            var nums = new List<int>() { 2, 2, 3, 4, 2, 2, 2 };
+            Console.WriteLine($"The product of integers in the list nums is {MultiplyListRecursive(nums, 0, nums.Count - 1)}.");
+
+            //possible sizes list contained 7, 3, 1, and your roomSize was 25
+            var boxes = new List<int>();
+            var possibleSizes = new List<int>() { 7, 3, 1 };
+            FillRoomWithBoxes(25, possibleSizes, boxes, 0);
+
+            Console.WriteLine($"The boxes are: {boxes[0]}, {boxes[1]}, {boxes[2]}, {boxes[3]}, {boxes[4]}");
         }
 
         // Brute force (linear search)
@@ -119,29 +126,75 @@ namespace AlgorithmsExcercisesNS
         // Write a unit test and test this function.
         // Solve the same problem using a recursive divide-and-conquer algorithm and test it again.
 
+        // O(n/2) => O(n) time | O(1) space
         static int MultiplyList(List<int> nums)
         {
-            int product = 1;
+            int left = 0, right = nums.Count - 1, product = 1;
 
-            for (int i = 0; i < nums.Count; i++)
+            while (left <= right)
             {
-                product *= nums[i];
+                Console.WriteLine($"left: {nums[left]}, right: {nums[right]} ");
+                if (left < right)
+                {
+                    product *= nums[left];
+                    left++;
+                }
+
+                if (right >= left)
+                {
+                    product *= nums[right];
+                    right--;
+                }
             }
 
             return product;
         }
 
-        static int MultiplyListRecursive(List<int> nums)
+        // O(n/2) => O(n) time | O(n/2) => O(n) space
+        static int MultiplyListRecursive(List<int> nums, int first, int last)
         {
             // base case
-            if (nums.Count == 0) return 1;
+            if (first > last) return 1;
 
-            // obaining the current element and removing it from the list
-            int currentElement = nums[0];
-            nums.RemoveAt(0);
+            int firstNum, lastNum;
+
+            if (first < last) firstNum = nums[first];
+            else firstNum = 1;
+
+            if (last >= first) lastNum = nums[last];
+            else lastNum = 1;
 
             // recursive case
-            return currentElement * MultiplyListRecursive(nums);
+            return firstNum * lastNum * MultiplyListRecursive(nums, ++first, --last);
+        }
+
+        // Greedy
+        // Write a function called FillRoomWithBoxes that takes in an int called roomSize, a List<int> called possibleSizes, and a List<int> called boxes.
+        // The possibleSizes list should contain all possible box sizes.You can assume this list is sorted in descending order.
+        // The function should implement a greedy recursive algorithm to fill the room as full as it can get with the least number of boxes, and should store the size of each box used in the boxes list, one entry per box
+        // For example, if your possible sizes list contained 7, 3, 1, and your roomSize was 25, the boxes list should contain 7, 7, 7, 3, 1 when your function exits
+        // Write a unit test and test this function
+
+        static void FillRoomWithBoxes(int roomSize, List<int> possibleSizes, List<int> boxes, int indexCurrentSize)
+        {
+            // base case
+            if (possibleSizes[possibleSizes.Count - 1] > roomSize ) return;
+
+            // base case
+            if (indexCurrentSize > possibleSizes.Count - 1) return;
+
+            // recursive case
+            if (possibleSizes[indexCurrentSize] <= roomSize)
+            {
+                boxes.Add(possibleSizes[indexCurrentSize]);
+                FillRoomWithBoxes(roomSize - possibleSizes[indexCurrentSize], possibleSizes, boxes, indexCurrentSize);
+            }
+
+            // recursive case
+            if (possibleSizes[indexCurrentSize] > roomSize)
+            {
+                FillRoomWithBoxes(roomSize, possibleSizes, boxes, ++indexCurrentSize);
+            }
         }
     }
 }
